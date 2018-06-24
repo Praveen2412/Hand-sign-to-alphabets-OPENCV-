@@ -2,7 +2,8 @@
   
           It is used to convert the human hand sign into alphabet by using opencv. It has certain limitation 
           it does not detect all sign of hand,It exactly find how many fingers are we showing so upon that it 
-          convert sign into text.
+          convert sign into text. We can type text fro a to v and including backspace and space by holding 
+          different number of combination of fingers using hands.
   
   
 Library needed
