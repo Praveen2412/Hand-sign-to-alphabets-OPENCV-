@@ -1,37 +1,42 @@
-import cv2
-import numpy as np
-import math
-from pynput.keyboard import Key,Controller
-import time
-import pyautogui
-import os
-import subprocess as sp
 
-keyboard=Controller()
+# Import required libraries
+import cv2  # OpenCV for image processing
+import numpy as np  # Numpy for array operations
+import math  # Math for geometric calculations
+from pynput.keyboard import Key, Controller  # For simulating keyboard input
+import time  # For delays
+import pyautogui  # For GUI automation (not used directly here)
+import os  # For OS operations
+import subprocess as sp  # For running external programs
 
+# Initialize keyboard controller
+keyboard = Controller()
 
+# Ask user for camera number (0 for default webcam)
+cam = int(input("Enter Camera number: "))
 
-
-cam=int(input("Enter Camera number: "))
-
+# Start video capture
 cap = cv2.VideoCapture(cam)
 
-f= open("text1.txt","w+")
+# Open a text file and launch Notepad (Windows only)
+f = open("text1.txt", "w+")
 programName = "notepad.exe"
 fileName = "text1.txt"
 sp.Popen([programName, fileName])
 
-while(cap.isOpened()):
-    # read image
+while cap.isOpened():
+    # Read frame from camera
     ret, img = cap.read()
-    resize = cv2.resize(img, (800, 800), interpolation = cv2.INTER_LINEAR)
+    # Resize image for consistent processing
+    resize = cv2.resize(img, (800, 800), interpolation=cv2.INTER_LINEAR)
 
-    # get hand data from the rectangle sub window on the screen
-    cv2.rectangle(resize, (300,300), (00,00), (0,255,0),0)
-    crop_img = resize[00:300, 00:300]
-    cv2.rectangle(resize, (800,300), (500,00), (255,0,0),0)
-    crop_img1 = resize[00:300, 500:800]
-    # convert to grayscale
+    # Draw rectangles for left and right hand regions
+    cv2.rectangle(resize, (300, 300), (0, 0), (0, 255, 0), 0)  # Left hand box
+    crop_img = resize[0:300, 0:300]
+    cv2.rectangle(resize, (800, 300), (500, 0), (255, 0, 0), 0)  # Right hand box
+    crop_img1 = resize[0:300, 500:800]
+
+    # Convert cropped regions to grayscale
     grey = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     grey1 = cv2.cvtColor(crop_img1, cv2.COLOR_BGR2GRAY)
 
